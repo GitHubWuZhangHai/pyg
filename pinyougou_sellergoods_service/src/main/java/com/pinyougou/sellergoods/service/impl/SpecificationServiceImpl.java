@@ -7,9 +7,9 @@ import com.github.abel533.entity.Example;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.pinyougou.mapper.TbBrandMapper;
-import com.pinyougou.pojo.TbBrand;
-import com.pinyougou.sellergoods.service.BrandService;
+import com.pinyougou.mapper.TbSpecificationMapper;
+import com.pinyougou.pojo.TbSpecification;
+import com.pinyougou.sellergoods.service.SpecificationService;
 import entity.PageResult;
 
 /**
@@ -18,51 +18,47 @@ import entity.PageResult;
  *
  */
 @Service
-public class BrandServiceImpl implements BrandService {
+public class SpecificationServiceImpl implements SpecificationService {
 
 	@Autowired
-	private TbBrandMapper brandMapper;
+	private TbSpecificationMapper specificationMapper;
 	
 	/**
 	 * 查询全部
 	 */
 	@Override
-	public List<TbBrand> findAll() {
-		return brandMapper.select(null);
+	public List<TbSpecification> findAll() {
+		return specificationMapper.select(null);
 	}
 
 	/**
 	 * 按分页查询
 	 */
 	@Override
-	public PageResult findPage(int pageNum, int pageSize,TbBrand brand) {
-		PageResult<TbBrand> result = new PageResult<TbBrand>();
+	public PageResult findPage(int pageNum, int pageSize,TbSpecification specification) {
+		PageResult<TbSpecification> result = new PageResult<TbSpecification>();
         //设置分页条件
         PageHelper.startPage(pageNum, pageSize);
 
         //构建查询条件
-        Example example = new Example(TbBrand.class);
+        Example example = new Example(TbSpecification.class);
         Example.Criteria criteria = example.createCriteria();
 		
-		if(brand!=null){			
+		if(specification!=null){			
 						//如果字段不为空
-			if (brand.getName()!=null && brand.getName().length()>0) {
-				criteria.andLike("name", "%" + brand.getName() + "%");
-			}
-			//如果字段不为空
-			if (brand.getFirstChar()!=null && brand.getFirstChar().length()>0) {
-				criteria.andLike("firstChar", "%" + brand.getFirstChar() + "%");
+			if (specification.getSpecName()!=null && specification.getSpecName().length()>0) {
+				criteria.andLike("specName", "%" + specification.getSpecName() + "%");
 			}
 	
 		}
 
         //查询数据
-        List<TbBrand> list = brandMapper.selectByExample(example);
+        List<TbSpecification> list = specificationMapper.selectByExample(example);
         //返回数据列表
         result.setRows(list);
 
         //获取总页数
-        PageInfo<TbBrand> info = new PageInfo<TbBrand>(list);
+        PageInfo<TbSpecification> info = new PageInfo<TbSpecification>(list);
         result.setPages(info.getPages());
 		
 		return result;
@@ -72,8 +68,8 @@ public class BrandServiceImpl implements BrandService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbBrand brand) {
-		brandMapper.insertSelective(brand);		
+	public void add(TbSpecification specification) {
+		specificationMapper.insertSelective(specification);		
 	}
 
 	
@@ -81,8 +77,8 @@ public class BrandServiceImpl implements BrandService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbBrand brand){
-		brandMapper.updateByPrimaryKeySelective(brand);
+	public void update(TbSpecification specification){
+		specificationMapper.updateByPrimaryKeySelective(specification);
 	}	
 	
 	/**
@@ -91,8 +87,8 @@ public class BrandServiceImpl implements BrandService {
 	 * @return
 	 */
 	@Override
-	public TbBrand getById(Long id){
-		return brandMapper.selectByPrimaryKey(id);
+	public TbSpecification getById(Long id){
+		return specificationMapper.selectByPrimaryKey(id);
 	}
 
 	/**
@@ -103,12 +99,12 @@ public class BrandServiceImpl implements BrandService {
 		//数组转list
         List longs = Arrays.asList(ids);
         //构建查询条件
-        Example example = new Example(TbBrand.class);
+        Example example = new Example(TbSpecification.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andIn("id", longs);
 
         //跟据查询条件删除数据
-        brandMapper.deleteByExample(example);
+        specificationMapper.deleteByExample(example);
 	}
 	
 	

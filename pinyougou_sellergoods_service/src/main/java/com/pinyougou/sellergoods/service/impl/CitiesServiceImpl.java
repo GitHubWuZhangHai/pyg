@@ -7,9 +7,9 @@ import com.github.abel533.entity.Example;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.pinyougou.mapper.TbBrandMapper;
-import com.pinyougou.pojo.TbBrand;
-import com.pinyougou.sellergoods.service.BrandService;
+import com.pinyougou.mapper.TbCitiesMapper;
+import com.pinyougou.pojo.TbCities;
+import com.pinyougou.sellergoods.service.CitiesService;
 import entity.PageResult;
 
 /**
@@ -18,51 +18,55 @@ import entity.PageResult;
  *
  */
 @Service
-public class BrandServiceImpl implements BrandService {
+public class CitiesServiceImpl implements CitiesService {
 
 	@Autowired
-	private TbBrandMapper brandMapper;
+	private TbCitiesMapper citiesMapper;
 	
 	/**
 	 * 查询全部
 	 */
 	@Override
-	public List<TbBrand> findAll() {
-		return brandMapper.select(null);
+	public List<TbCities> findAll() {
+		return citiesMapper.select(null);
 	}
 
 	/**
 	 * 按分页查询
 	 */
 	@Override
-	public PageResult findPage(int pageNum, int pageSize,TbBrand brand) {
-		PageResult<TbBrand> result = new PageResult<TbBrand>();
+	public PageResult findPage(int pageNum, int pageSize,TbCities cities) {
+		PageResult<TbCities> result = new PageResult<TbCities>();
         //设置分页条件
         PageHelper.startPage(pageNum, pageSize);
 
         //构建查询条件
-        Example example = new Example(TbBrand.class);
+        Example example = new Example(TbCities.class);
         Example.Criteria criteria = example.createCriteria();
 		
-		if(brand!=null){			
+		if(cities!=null){			
 						//如果字段不为空
-			if (brand.getName()!=null && brand.getName().length()>0) {
-				criteria.andLike("name", "%" + brand.getName() + "%");
+			if (cities.getCityid()!=null && cities.getCityid().length()>0) {
+				criteria.andLike("cityid", "%" + cities.getCityid() + "%");
 			}
 			//如果字段不为空
-			if (brand.getFirstChar()!=null && brand.getFirstChar().length()>0) {
-				criteria.andLike("firstChar", "%" + brand.getFirstChar() + "%");
+			if (cities.getCity()!=null && cities.getCity().length()>0) {
+				criteria.andLike("city", "%" + cities.getCity() + "%");
+			}
+			//如果字段不为空
+			if (cities.getProvinceid()!=null && cities.getProvinceid().length()>0) {
+				criteria.andLike("provinceid", "%" + cities.getProvinceid() + "%");
 			}
 	
 		}
 
         //查询数据
-        List<TbBrand> list = brandMapper.selectByExample(example);
+        List<TbCities> list = citiesMapper.selectByExample(example);
         //返回数据列表
         result.setRows(list);
 
         //获取总页数
-        PageInfo<TbBrand> info = new PageInfo<TbBrand>(list);
+        PageInfo<TbCities> info = new PageInfo<TbCities>(list);
         result.setPages(info.getPages());
 		
 		return result;
@@ -72,8 +76,8 @@ public class BrandServiceImpl implements BrandService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbBrand brand) {
-		brandMapper.insertSelective(brand);		
+	public void add(TbCities cities) {
+		citiesMapper.insertSelective(cities);		
 	}
 
 	
@@ -81,8 +85,8 @@ public class BrandServiceImpl implements BrandService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbBrand brand){
-		brandMapper.updateByPrimaryKeySelective(brand);
+	public void update(TbCities cities){
+		citiesMapper.updateByPrimaryKeySelective(cities);
 	}	
 	
 	/**
@@ -91,8 +95,8 @@ public class BrandServiceImpl implements BrandService {
 	 * @return
 	 */
 	@Override
-	public TbBrand getById(Long id){
-		return brandMapper.selectByPrimaryKey(id);
+	public TbCities getById(Long id){
+		return citiesMapper.selectByPrimaryKey(id);
 	}
 
 	/**
@@ -103,12 +107,12 @@ public class BrandServiceImpl implements BrandService {
 		//数组转list
         List longs = Arrays.asList(ids);
         //构建查询条件
-        Example example = new Example(TbBrand.class);
+        Example example = new Example(TbCities.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andIn("id", longs);
 
         //跟据查询条件删除数据
-        brandMapper.deleteByExample(example);
+        citiesMapper.deleteByExample(example);
 	}
 	
 	
