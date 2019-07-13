@@ -21,6 +21,17 @@ public class TbSpecification implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * @param
+     * @return java.lang.String
+     * @author wu_zh
+     * @date 2019/7/13 10:40
+     * @Description 添加get方法用于支持前端vue-select获取内容
+     */
+    public String getText() {
+        return this.specName;
+    }
+
+    /**
      * 获取主键
      *
      * @return id - 主键
