@@ -16,7 +16,7 @@ window.onload=function () {
 			//将要删除的id列表
 			ids:[],
 			//搜索包装对象
-			searchEntity:{}
+			searchEntity:{status:0}
 		},
 		methods:{
 			//查询所有
@@ -44,16 +44,14 @@ window.onload=function () {
 			//新增
 			add:function () {
 				var url = "../seller/add.do";
-				if(this.entity.id != null){
+				if(this.entity.sellerId != null){
 					url = "../seller/update.do";
 				}
 				axios.post(url, this.entity).then(function (response) {
+                    alert(response.data.message);
 					if (response.data.success) {
 						//刷新数据，刷新当前页
 						app.findPage(app.pageNo);
-					} else {
-						//失败时显示失败消息
-						alert(response.data.message);
 					}
 				});
 			},
@@ -75,7 +73,13 @@ window.onload=function () {
 						alert(response.data.message);
 					}
 				})
-			}
+			},
+			//审核操作
+			updateStatus:function (sellerId, status) {
+				this.entity={"sellerId":sellerId,"status":status};
+				//审核
+				this.add();
+            }
 		},
 		//Vue对象初始化后，调用此逻辑
 		created:function () {
@@ -83,4 +87,4 @@ window.onload=function () {
 			this.findPage(1);
 		}
 	});
-}
+};

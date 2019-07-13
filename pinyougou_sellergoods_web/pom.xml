@@ -96,6 +96,15 @@
             <version>1.7.26</version>
             <scope>compile</scope>
         </dependency>
+        <!-- 身份验证 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -106,6 +115,8 @@
                 <configuration>
                     <path>/</path>
                     <port>8081</port>
+                    <!--解决tomcat7请求参数乱码问题-->
+                    <uriEncoding>utf8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>

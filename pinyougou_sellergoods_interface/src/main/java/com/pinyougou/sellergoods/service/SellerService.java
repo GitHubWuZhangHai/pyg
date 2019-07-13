@@ -41,7 +41,7 @@ public interface SellerService {
 	 * @param id
 	 * @return
 	 */
-	public TbSeller getById(Long id);
+	public TbSeller getById(String id);
 	
 	
 	/**
